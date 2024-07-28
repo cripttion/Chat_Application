@@ -5,11 +5,9 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.cripttion.chatapp.model.entity.User;
+import com.cripttion.chatapp.model.entity.Message;
 
 @Repository
-public interface UserRepo extends JpaRepository<User,UUID> {
-
-   User findAllByuserId(UUID userId);
-   boolean existsByuserId(UUID userId);
-} 
+public interface MessageRepo extends JpaRepository<Message,UUID> {
+    
+}

@@ -1,5 +1,6 @@
 package com.cripttion.chatapp.model.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,27 +10,30 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 import jakarta.persistence.Table;
+import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 
+@Data
 @Entity
 @Table(name = "user_chats")
 public class UserChat {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userChatId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID userChatId;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "chat_id", nullable = false)
     private Chat chat;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "last_read_message_id")
     private Message lastReadMessage;
 

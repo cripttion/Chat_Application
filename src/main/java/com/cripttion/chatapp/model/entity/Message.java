@@ -9,20 +9,23 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import java.time.LocalDateTime;
 import java.util.Set;
+import java.util.UUID;
 
 import com.cripttion.chatapp.model.enums.MessageType;
 
+@Data
 @Entity
 @Table(name = "messages")
 public class Message {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long messageId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID messageId;
 
     @ManyToOne
     @JoinColumn(name = "chat_id", nullable = false)

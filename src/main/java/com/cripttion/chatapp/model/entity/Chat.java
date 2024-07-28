@@ -10,18 +10,22 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.Set;
+import java.util.UUID;
 
 import com.cripttion.chatapp.model.enums.ChatType;
+
+@Data
 @Entity
 @Table(name = "chats")
 public class Chat {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long chatId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID chatId;
 
     @Enumerated(EnumType.STRING)
     private ChatType chatType;
@@ -31,6 +35,8 @@ public class Chat {
 
     @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime updatedAt;
+
+
 
     // Relationships
     @OneToMany(mappedBy = "chat")
@@ -42,5 +48,4 @@ public class Chat {
     @OneToOne(mappedBy = "chat")
     private GroupChat groupChat;
 
-    // Getters and setters
 }
