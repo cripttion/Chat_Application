@@ -13,6 +13,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import com.cripttion.chatapp.model.enums.NotificationType;
 
@@ -21,8 +22,8 @@ import com.cripttion.chatapp.model.enums.NotificationType;
 public class Notification {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long notificationId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID notificationId;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -32,6 +33,7 @@ public class Notification {
     private NotificationType notificationType;
 
     private String notificationContent;
+    @Column(name = "is_read")
     private Boolean read;
 
     @Column(columnDefinition = "TIMESTAMP")

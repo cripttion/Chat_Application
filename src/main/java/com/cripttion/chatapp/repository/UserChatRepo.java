@@ -1,5 +1,6 @@
 package com.cripttion.chatapp.repository;
 
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,4 +14,6 @@ import com.cripttion.chatapp.model.entity.UserChat;
 public interface UserChatRepo extends JpaRepository<UserChat,UUID> {
 
     UserChat findByUserAndChat(User user, Chat chat);
+    Set<UserChat> findByUser(User user);
+    Set<UserChat>findByChat(Chat chat);
 }

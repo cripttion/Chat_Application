@@ -1,5 +1,6 @@
 package com.cripttion.chatapp.repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,4 +13,6 @@ public interface UserRepo extends JpaRepository<User,UUID> {
 
    User findAllByuserId(UUID userId);
    boolean existsByuserId(UUID userId);
-} 
+
+  Optional<User> findByphoneNumber(String mobileNumber);
+}

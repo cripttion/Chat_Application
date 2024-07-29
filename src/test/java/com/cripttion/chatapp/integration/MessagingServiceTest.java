@@ -98,7 +98,7 @@ public class MessagingServiceTest {
                 .thenReturn(null);
 
         // Mocking the MessageRepository response
-       Message savedMessage = new Message();
+        Message savedMessage = new Message();
         savedMessage.setMessageId(UUID.randomUUID());
         when(messageRepo.save(any(Message.class))).thenReturn(savedMessage);
 
@@ -113,7 +113,7 @@ public class MessagingServiceTest {
         verify(userChatRepo,times(4)).save(any(UserChat.class));
 
         assertNotNull(result);
-        // assertEquals(savedMessage.getMessageId(), result.getMessageId());
+//        assertEquals(savedMessage.getMessageId(), result.getMessageId());
         assertEquals(content, result.getContent());
     }
     

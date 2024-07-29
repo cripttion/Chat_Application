@@ -73,18 +73,16 @@ public class MessagingService {
 
     private Chat findOrCreateChat(User sender , User receiver)
     {
-        System.out.println(sender.getUsername());
-        if(sender.getUserChats()==null)
-        {
-            sender.setUserChats(new HashSet<>());
-        }
-        Set<UserChat>userChats = sender.getUserChats();
+
+        Set<UserChat> userChats = userChatRepo.findByUser(sender);
         System.out.println(userChats);
         for(UserChat userchat:userChats)
         {
+
             if(userchat.getChat().getChatType()==ChatType.PRIVATE)
             {
-                for(UserChat uc:userchat.getChat().getUserChats())
+                Set<UserChat> userChats1 = userChatRepo.findByChat(userchat.getChat());
+                for(UserChat uc:userChats1)
                 {
                     if(uc.getUser().equals(receiver))
                     {

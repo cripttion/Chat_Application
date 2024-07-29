@@ -21,7 +21,7 @@ public class MappertTest {
     @Test
     public void whenMapUserWithExactMatch_thenConvertsToDTO() {
         // Arrange
-        User user = new User(null, "rahul", "2309409", null, null, null, null, null, null, null, null, null, null);
+        User user = new User();
 
         // Act
         UserDto userDTO = userMapper.mapTo(user);

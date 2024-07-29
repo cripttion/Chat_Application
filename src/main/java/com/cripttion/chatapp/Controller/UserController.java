@@ -49,6 +49,20 @@ public class UserController {
       );
     }
 
+    @GetMapping(path = "/user/temp/{id}")
+    public ResponseEntity<User> getAllUserCorrespondance(@PathVariable("id") UUID id)
+    {
+        if(!userService.isExist(id))
+        {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        User getUserData = userService.getUserWithUserID(id);
+        return new ResponseEntity<>(
+                getUserData,
+                HttpStatus.OK
+        );
+    }
+
     @PostMapping(path = "/user")
     public UserDto createUser(@RequestBody UserDto userDto)
     {

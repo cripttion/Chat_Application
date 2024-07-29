@@ -1,5 +1,6 @@
 package com.cripttion.chatapp.repository;
 
+import com.cripttion.chatapp.model.entity.UserChat;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,5 +10,5 @@ import java.util.*;
 
 @Repository
 public interface ChatRepo extends JpaRepository<Chat,UUID> {
-    
+
 }

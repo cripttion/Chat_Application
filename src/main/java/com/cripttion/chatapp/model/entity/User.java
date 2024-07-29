@@ -1,12 +1,6 @@
 package com.cripttion.chatapp.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -46,7 +40,7 @@ public class User {
     private LocalDateTime updatedAt;
 
     // Relationships
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
     private Set<UserChat> userChats;
 
     @OneToMany(mappedBy = "sender")
@@ -55,5 +49,6 @@ public class User {
     @OneToMany(mappedBy = "owner")
     private Set<Contact> contacts;
 
-    // Getters and setters
+    @OneToMany(mappedBy = "user")
+    private Set<Notification> notifications;
 }

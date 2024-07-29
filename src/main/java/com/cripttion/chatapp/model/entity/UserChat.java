@@ -42,5 +42,5 @@ public class UserChat {
 
     private Boolean isAdmin;
 
-    // Getters and setters
+    
 }
