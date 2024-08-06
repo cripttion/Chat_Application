@@ -1,7 +1,9 @@
 package com.cripttion.chatapp.Controller;
 
 import com.cripttion.chatapp.Dto.ApiResonseDto;
+import com.cripttion.chatapp.Dto.Contacts.ContactListDTO;
 import com.cripttion.chatapp.model.entity.Contact;
+import com.cripttion.chatapp.model.entity.User;
 import com.cripttion.chatapp.service.contactservice.ContactsServices;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 
@@ -25,8 +28,11 @@ public class ContactsController {
         private List<String> contacts;
     }
     @Autowired
-    private ContactsServices contactsServices;
+    private final ContactsServices contactsServices;
 
+    public ContactsController(ContactsServices contactsServices){
+        this.contactsServices = contactsServices;
+    }
     @PostMapping(path = "/contact/{id}")
     public ResponseEntity<ApiResonseDto<Contact>> createContactListOfUser(@PathVariable("id")UUID id, @RequestBody ContactData contactData)
     {
@@ -34,6 +40,15 @@ public class ContactsController {
                 contactsServices.creatingContactListOfUser(id,contactData.getContacts()),
                 HttpStatus.OK
             );
+    }
+    @GetMapping(path="/contact/{id}")
+    public ResponseEntity<ApiResonseDto<ContactListDTO>> getContactsOfAUser(@PathVariable("id") UUID id)
+    {
+         return new ResponseEntity<>(
+                 contactsServices.getContactsListOfUser(id),
+                 HttpStatus.OK
+
+         );
     }
 
 }

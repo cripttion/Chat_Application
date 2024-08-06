@@ -1,6 +1,7 @@
 package com.cripttion.chatapp.service.contactservice;
 
 import com.cripttion.chatapp.Dto.ApiResonseDto;
+import com.cripttion.chatapp.Dto.Contacts.ContactListDTO;
 import com.cripttion.chatapp.model.entity.Contact;
 import com.cripttion.chatapp.model.entity.User;
 import com.cripttion.chatapp.repository.ContactRepo;
@@ -20,7 +21,11 @@ import java.util.stream.Collectors;
 public class ContactsServices {
 
     @Autowired
-    private ContactRepo contactRepo;
+    private final ContactRepo contactRepo;
+
+    public ContactsServices(ContactRepo contactRepo) {
+        this.contactRepo = contactRepo;
+    }
 
     @Autowired
     private UserRepo userRepo;
@@ -32,6 +37,7 @@ public class ContactsServices {
 
     @Transactional
     public ApiResonseDto<Contact> creatingContactListOfUser(UUID userID, List<String> contactList) {
+
         User owner = userRepo.findAllByuserId(userID);
 
         Set<User> existingContacts = contactRepo.findExistingContacts(owner, contactList);
@@ -58,5 +64,18 @@ public class ContactsServices {
         apiResponse.setData(contactsToAdd); // Return the added contacts
 
         return apiResponse;
+    }
+    @Transactional
+    public ApiResonseDto<ContactListDTO> getContactsListOfUser(UUID userId)
+    {
+
+          List<ContactListDTO> userData = contactRepo.findContactsByOwnerId(userId);
+          ApiResonseDto<ContactListDTO> apiResonseDto = new ApiResonseDto<>();
+          apiResonseDto.setStatus("200");
+          apiResonseDto.setMessage("The user in Contacts");
+
+          apiResonseDto.setData(userData);
+
+          return apiResonseDto;
     }
 }
