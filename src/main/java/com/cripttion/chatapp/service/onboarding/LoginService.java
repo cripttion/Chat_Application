@@ -28,8 +28,10 @@ public class LoginService {
 
     public ApiResonseDto<LoginResponse> login(String mobileNumber, String password) {
         ApiResonseDto<LoginResponse> apiResponseDto = new ApiResonseDto<>();
+        mobileNumber ="+91"+mobileNumber;
+        System.out.print(mobileNumber);
         User user = getUserByMobileNumber(mobileNumber);
-//        System.out.println(user);
+
         if (user != null && password.equals(user.getPassword())) {
             apiResponseDto.setStatus("200");
             apiResponseDto.setMessage("Login Successful");

@@ -1,6 +1,7 @@
 package com.cripttion.chatapp.service.contactservice;
 
 import com.cripttion.chatapp.Dto.ApiResonseDto;
+import com.cripttion.chatapp.Dto.Contacts.ContactInputDto;
 import com.cripttion.chatapp.Dto.Contacts.ContactListDTO;
 import com.cripttion.chatapp.model.entity.Contact;
 import com.cripttion.chatapp.model.entity.User;
@@ -10,11 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,35 +33,41 @@ public class ContactsServices {
     }
 
     @Transactional
-    public ApiResonseDto<Contact> creatingContactListOfUser(UUID userID, List<String> contactList) {
+    public ApiResonseDto<Contact> creatingContactListOfUser(UUID userID, List<ContactInputDto> contactList) {
 
         User owner = userRepo.findAllByuserId(userID);
 
-        Set<User> existingContacts = contactRepo.findExistingContacts(owner, contactList);
-
-        List<User> newContacts = contactList.stream()
-                .map(this::getUserByMobileNumber)
-                .filter(contactUser -> contactUser != null && !existingContacts.contains(contactUser)) // Handle null values
+        List<String> phoneNumbers = contactList.stream()
+                .map(ContactInputDto::getPhoneNumber)
                 .collect(Collectors.toList());
+        System.out.println(phoneNumbers);
+        Set<User> existingContacts = contactRepo.findExistingContacts(owner, phoneNumbers);
 
-        List<Contact> contactsToAdd = newContacts.stream()
-                .map(contactUser -> {
-                    Contact contact = new Contact();
-                    contact.setOwner(owner);
-                    contact.setContact(contactUser);
-                    contact.setAlias(contactUser.getUsername());
-                    return contact;
+        List<Contact> contactsToAdd = contactList.stream()
+                .map(contactInput -> {
+                    User contactUser = getUserByMobileNumber(contactInput.getPhoneNumber());
+                    if (contactUser != null && !existingContacts.contains(contactUser)) {
+                        Contact contact = new Contact();
+                        contact.setOwner(owner);
+                        contact.setContact(contactUser);
+                        contact.setAlias(contactInput.getAlias());
+                        return contact;
+                    }
+                    return null;
                 })
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
+
         contactRepo.saveAll(contactsToAdd);
 
-        ApiResonseDto <Contact> apiResponse = new ApiResonseDto<>();
+        ApiResonseDto<Contact> apiResponse = new ApiResonseDto<>();
         apiResponse.setStatus("201");
         apiResponse.setMessage("Contacts added successfully");
-        apiResponse.setData(contactsToAdd); // Return the added contacts
+        apiResponse.setData(contactsToAdd);
 
         return apiResponse;
     }
+
     @Transactional
     public ApiResonseDto<ContactListDTO> getContactsListOfUser(UUID userId)
     {

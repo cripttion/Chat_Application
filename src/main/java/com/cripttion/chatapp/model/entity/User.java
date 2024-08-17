@@ -27,6 +27,8 @@ public class User {
     private String phoneNumber;
     private String email;
     private String password;
+    @Lob
+    @Column(name = "profile_image", columnDefinition="LONGTEXT")
     private String profilePicture;
     private String status;
 

@@ -1,6 +1,7 @@
 package com.cripttion.chatapp.Controller;
 
 import com.cripttion.chatapp.Dto.ApiResonseDto;
+import com.cripttion.chatapp.Dto.Contacts.ContactInputDto;
 import com.cripttion.chatapp.Dto.Contacts.ContactListDTO;
 import com.cripttion.chatapp.model.entity.Contact;
 import com.cripttion.chatapp.model.entity.User;
@@ -25,7 +26,7 @@ public class ContactsController {
 
     @Data
     private static class ContactData {
-        private List<String> contacts;
+        private List<ContactInputDto> contacts;
     }
     @Autowired
     private final ContactsServices contactsServices;

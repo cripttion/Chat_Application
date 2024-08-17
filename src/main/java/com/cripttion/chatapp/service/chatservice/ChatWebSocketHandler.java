@@ -30,6 +30,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 
         // Send the message to all sessions associated with the chatId
         Set<WebSocketSession> sessions = chatSessions.get(chatId);
+        System.out.println("The session at which we send the messae is"+" "+sessions);
         if (sessions != null) {
             for (WebSocketSession wsSession : sessions) {
                 if (wsSession.isOpen()) {
@@ -63,6 +64,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 
     private String getChatId(WebSocketSession session) {
         // Extract chatId from session URI query parameter
+
         return session.getUri().getQuery().split("=")[1]; // Example: ws://server/ws?chatId=12345
     }
 }
